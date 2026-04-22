@@ -24,5 +24,8 @@ public class FilmeController {
     public Filme salvar(@RequestBody @Valid Filme filme){
         return service.salvar(filme);
     }
-
+    @GetMapping("/{id}")
+    public Filme buscarId(@PathVariable Long id){
+        return service.buscarId(id);
+    }
 }
