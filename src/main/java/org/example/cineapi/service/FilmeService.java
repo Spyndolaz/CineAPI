@@ -16,8 +16,10 @@ public class FilmeService {
         this.repository = repository;
     }
 
-    public Filme salvar(Filme filme) {
-        return repository.save(filme);
+    public FilmeResponseDTO salvar(FilmeRequestDTO dto) {
+        Filme filme = toEntity(dto);
+        Filme salvo = repository.save(filme);
+        return toResponseDTO(salvo);
     }
 
     public Filme buscarId(Long id){
