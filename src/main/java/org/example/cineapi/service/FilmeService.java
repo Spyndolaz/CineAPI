@@ -38,6 +38,21 @@ public class FilmeService {
         repository.delete(filme);
     }
 
+    public FilmeResponseDTO atualizar (Long id, FilmeRequestDTO dto){
+        Filme existente = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme já existente"));
+
+        existente.setTitulo(dto.titulo());
+        existente.setTitulo(dto.titulo());
+        existente.setGenero(dto.genero());
+        existente.setDiretor(dto.diretor());
+        existente.setDuracao(dto.duracao());
+        existente.setNota(dto.nota());
+        existente.setAnoLancamento(dto.ano());
+
+        Filme atualizado = repository.save(existente);
+        return toResponseDTO(atualizado);
+    }
+
     //leva as informações ao banco de dados
     private Filme toEntity(FilmeRequestDTO dto){
         Filme filme = new Filme();

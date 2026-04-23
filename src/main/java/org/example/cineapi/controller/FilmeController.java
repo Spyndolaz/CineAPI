@@ -34,5 +34,9 @@ public class FilmeController {
     public void deletar(@PathVariable Long id){
         service.deletar(id);
     }
+    @PutMapping("/{id}")
+    public FilmeResponseDTO atualizar(@PathVariable Long id, @RequestBody FilmeRequestDTO dto){
+        return service.atualizar(id, dto);
+    }
 
 }
