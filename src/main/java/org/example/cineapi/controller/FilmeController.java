@@ -29,4 +29,10 @@ public class FilmeController {
     public FilmeResponseDTO buscarId(@PathVariable Long id){
         return service.buscarId(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id){
+        service.deletar(id);
+    }
+
 }

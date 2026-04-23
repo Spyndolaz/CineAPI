@@ -1,7 +1,6 @@
 package org.example.cineapi.service;
 
-import org.example.cineapi.dto.FilmeRequestDTO;
-import org.example.cineapi.dto.FilmeResponseDTO;
+import org.example.cineapi.dto.*;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
