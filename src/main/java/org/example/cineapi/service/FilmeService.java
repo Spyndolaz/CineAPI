@@ -22,12 +22,21 @@ public class FilmeService {
         return toResponseDTO(salvo);
     }
 
-    public Filme buscarId(Long id){
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+    public FilmeResponseDTO buscarId(Long id){
+        Filme filme = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+            return toResponseDTO(filme);
     }
 
-    public List<Filme> listar(){
-        return repository.findAll();
+    public List<FilmeResponseDTO> listar(){
+        return repository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public void deletar(Long id){
+        Filme filme = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        repository.delete(filme);
     }
 
     //leva as informações ao banco de dados

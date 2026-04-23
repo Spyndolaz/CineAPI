@@ -18,7 +18,7 @@ public class FilmeController {
         this.service = service;
     }
     @GetMapping
-    public List<Filme> listar(){
+    public List<FilmeResponseDTO> listar(){
         return service.listar();
     }
     @PostMapping
@@ -26,7 +26,7 @@ public class FilmeController {
         return service.salvar(dto);
     }
     @GetMapping("/{id}")
-    public Filme buscarId(@PathVariable Long id){
+    public FilmeResponseDTO buscarId(@PathVariable Long id){
         return service.buscarId(id);
     }
 }
