@@ -1,6 +1,7 @@
 package org.example.cineapi.controller;
 
 import jakarta.validation.Valid;
+import org.example.cineapi.dto.*;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.service.FilmeService;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,11 @@ public class FilmeController {
         return service.listar();
     }
     @PostMapping
-    public Filme salvar(@RequestBody @Valid Filme filme){
-        return service.salvar(filme);
+    public FilmeResponseDTO salvar(@RequestBody @Valid FilmeRequestDTO dto){
+        return service.salvar(dto);
     }
     @GetMapping("/{id}")
     public Filme buscarId(@PathVariable Long id){
         return service.buscarId(id);
     }
 }
-s
