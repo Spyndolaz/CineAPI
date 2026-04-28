@@ -19,5 +19,9 @@ public class Filme {
         private Integer duracao;
         private Integer nota;
 
+        @ManyToOne
+        @JoinColumn(name = "idDiretor")
+        private Diretor diretorid;
+
         public Filme() {}
 }
