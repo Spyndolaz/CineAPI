@@ -42,5 +42,15 @@ public class DiretorService {
         return repository.findAll().stream().map(this::toResponseDTO).toList();
     }
 
+        public DiretorResponseDTO buscarPorId(Long idDiretor) {
+            Diretor diretor = repository.findById(idDiretor).orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
+            return toResponseDTO(diretor);
+        }
 
+        public Diretor buscarEntidade(Long idDiretor){
+            return repository.findById(idDiretor).orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
+        }
+
+
+        //pendente...
 }

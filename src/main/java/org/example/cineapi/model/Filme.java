@@ -14,14 +14,14 @@ public class Filme {
         private Long id;
         private String titulo;
         private String genero;
-        private String diretor;
+
         private Integer anoLancamento;
         private Integer duracao;
         private Integer nota;
 
         @ManyToOne
         @JoinColumn(name = "idDiretor")
-        private Diretor diretorid;
+        private Diretor diretor;
 
         public Filme() {}
 }

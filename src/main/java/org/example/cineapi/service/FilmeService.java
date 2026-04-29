@@ -1,6 +1,7 @@
 package org.example.cineapi.service;
 
 import org.example.cineapi.dto.*;
+import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,12 @@ import java.util.List;
 @Service
 public class FilmeService {
     private final FilmeRepository repository;
+    private final DiretorService  service;
 
-    public FilmeService(FilmeRepository repository) {
+
+    public FilmeService(FilmeRepository repository, DiretorService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     public FilmeResponseDTO salvar(FilmeRequestDTO dto) {
@@ -40,11 +44,12 @@ public class FilmeService {
 
     public FilmeResponseDTO atualizar (Long id, FilmeRequestDTO dto){
         Filme existente = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme já existente"));
+        Diretor diretor = service.buscarEntidade(dto.idDiretor());
 
         existente.setTitulo(dto.titulo());
         existente.setTitulo(dto.titulo());
         existente.setGenero(dto.genero());
-        existente.setDiretor(dto.diretor());
+        existente.setDiretor(diretor);
         existente.setDuracao(dto.duracao());
         existente.setNota(dto.nota());
         existente.setAnoLancamento(dto.ano());
@@ -55,10 +60,13 @@ public class FilmeService {
 
     //leva as informações ao banco de dados
     private Filme toEntity(FilmeRequestDTO dto){
+
+        Diretor diretor = service.buscarEntidade(dto.idDiretor());
         Filme filme = new Filme();
+
         filme.setTitulo(dto.titulo());
         filme.setGenero(dto.genero());
-        filme.setDiretor(dto.diretor());
+        filme.setDiretor(diretor);
         filme.setDuracao(dto.duracao());
         filme.setNota(dto.nota());
         filme.setAnoLancamento(dto.ano());
@@ -70,7 +78,8 @@ public class FilmeService {
                 filme.getId(),
                 filme.getTitulo(),
                 filme.getGenero(),
-                filme.getDiretor(),
+                filme.getDiretor().getIdDiretor(),
+                filme.getDiretor().getNome(),
                 filme.getNota()
         );
 
