@@ -3,7 +3,8 @@ package org.example.cineapi.dto;
 public record FilmeResponseDTO(
         Long id,
         String titulo,
+        Long idDiretor,
         String genero,
-        String diretor,
+        String nomeDiretor,
         Integer nota
 ) {}

@@ -8,7 +8,7 @@ public record FilmeRequestDTO(
         @NotBlank(message = "Preencha o gênero")
         String genero,
         @NotBlank(message = "Preencha o diretor")
-        String diretor,
+        Long idDiretor,
         @NotNull(message = "Preencha o ano de lançamento")
         @Min(value = 1895)
         @Max(value = 2026)

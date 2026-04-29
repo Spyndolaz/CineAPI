@@ -18,6 +18,7 @@ public class Diretor {
         private String nome;
         private String nacionalidade;
         private Integer idade;
+        private String biografia;
 
         @OneToMany(mappedBy = "Diretor")
         private List<Filme> filmes = new ArrayList<>();
