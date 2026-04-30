@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface FilmeRepository extends JpaRepository<Filme, Long> {
     List<Filme> findByTituloContainingIgnoreCase(String titulo);
+    List<Filme> findByDiretorIdDiretor(Long idDiretor);
 }

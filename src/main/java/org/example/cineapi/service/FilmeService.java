@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class FilmeService {
     private final FilmeRepository repository;
-    private final DiretorService  service;
+    private final DiretorService service;
 
 
     public FilmeService(FilmeRepository repository, DiretorService service) {
@@ -77,11 +77,19 @@ public class FilmeService {
         return new FilmeResponseDTO(
                 filme.getId(),
                 filme.getTitulo(),
-                filme.getGenero(),
                 filme.getDiretor().getIdDiretor(),
+                filme.getGenero(),
                 filme.getDiretor().getNome(),
                 filme.getNota()
         );
 
+    }
+
+    public List<FilmeResponseDTO> listarFilmePorDiretor (Long idDiretor) {
+        service.buscarEntidade(idDiretor);
+        return repository.findByDiretorIdDiretor(idDiretor)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 }
