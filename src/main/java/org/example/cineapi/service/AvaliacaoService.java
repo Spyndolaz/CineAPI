@@ -1,13 +1,12 @@
 package org.example.cineapi.service;
 
 
-import org.example.cineapi.dto.AvaliacaoRequestDTO;
-import org.example.cineapi.dto.AvaliacaoResponseDTO;
-import org.example.cineapi.model.Avaliacao;
-import org.example.cineapi.model.Filme;
-import org.example.cineapi.repository.AvaliacaoRepository;
-import org.example.cineapi.repository.FilmeRepository;
+import org.example.cineapi.dto.*;
+import org.example.cineapi.model.*;
+import org.example.cineapi.repository.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AvaliacaoService {
@@ -30,7 +29,7 @@ public class AvaliacaoService {
         );
     }
 
-    public AvaliacaoResponseDTO salvar(AvaliacaoRequestDTO dto){
+    public AvaliacaoResponseDTO salvar(AvaliacaoRequestDTO dto) {
         Filme filme = filmeRepository.findById(dto.id()).orElseThrow(() -> new RuntimeException("Filme não encotrado"));
         Avaliacao avaliacao = new Avaliacao();
         avaliacao.setNota(dto.nota());
@@ -39,7 +38,13 @@ public class AvaliacaoService {
 
         Avaliacao salva = repository.save(avaliacao);
         return toResponseDTO(salva);
+    }
 
-
+    public List<AvaliacaoResponseDTO> listarPorFilme(Long id) {
+        filmeRepository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+        return repository.findByFilmeId(id)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 }
