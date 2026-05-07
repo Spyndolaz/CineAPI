@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -17,11 +20,13 @@ public class Filme {
 
         private Integer anoLancamento;
         private Integer duracao;
-        private Integer nota;
 
         @ManyToOne
         @JoinColumn(name = "idDiretor")
         private Diretor diretor;
+
+        @OneToMany(mappedBy = "filme")
+        private List<Avaliacao> avaliacoes = new ArrayList<>();
 
         public Filme() {}
 }

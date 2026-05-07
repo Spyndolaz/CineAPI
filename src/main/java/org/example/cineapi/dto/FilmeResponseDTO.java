@@ -6,5 +6,5 @@ public record FilmeResponseDTO(
         Long idDiretor,
         String nomeDiretor,
         String genero,
-        Integer nota
+        Double mediaAvaliacoes
 ) {}

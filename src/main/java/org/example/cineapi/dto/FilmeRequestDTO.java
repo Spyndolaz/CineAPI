@@ -15,9 +15,7 @@ public record FilmeRequestDTO(
         Integer ano,
         @NotNull(message = "Preencha a duração")
         @Positive
-        Integer duracao,
-        @Min(value = 0)
-        @Max(value = 5)
-        Integer nota
-) {}
+        Integer duracao
+)
+{}
 

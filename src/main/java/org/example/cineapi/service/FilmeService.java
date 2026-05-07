@@ -1,6 +1,7 @@
 package org.example.cineapi.service;
 
 import org.example.cineapi.dto.*;
+import org.example.cineapi.model.Avaliacao;
 import org.example.cineapi.model.Diretor;
 import org.example.cineapi.model.Filme;
 import org.example.cineapi.repository.FilmeRepository;
@@ -25,24 +26,24 @@ public class FilmeService {
         return toResponseDTO(salvo);
     }
 
-    public FilmeResponseDTO buscarId(Long id){
+    public FilmeResponseDTO buscarId(Long id) {
         Filme filme = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
-            return toResponseDTO(filme);
+        return toResponseDTO(filme);
     }
 
-    public List<FilmeResponseDTO> listar(){
+    public List<FilmeResponseDTO> listar() {
         return repository.findAll()
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
     }
 
-    public void deletar(Long id){
+    public void deletar(Long id) {
         Filme filme = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme não encontrado"));
         repository.delete(filme);
     }
 
-    public FilmeResponseDTO atualizar (Long id, FilmeRequestDTO dto){
+    public FilmeResponseDTO atualizar(Long id, FilmeRequestDTO dto) {
         Filme existente = repository.findById(id).orElseThrow(() -> new RuntimeException("Filme já existente"));
         Diretor diretor = service.buscarEntidade(dto.idDiretor());
 
@@ -51,7 +52,6 @@ public class FilmeService {
         existente.setGenero(dto.genero());
         existente.setDiretor(diretor);
         existente.setDuracao(dto.duracao());
-        existente.setNota(dto.nota());
         existente.setAnoLancamento(dto.ano());
 
         Filme atualizado = repository.save(existente);
@@ -59,7 +59,7 @@ public class FilmeService {
     }
 
     //leva as informações ao banco de dados
-    private Filme toEntity(FilmeRequestDTO dto){
+    private Filme toEntity(FilmeRequestDTO dto) {
 
         Diretor diretor = service.buscarEntidade(dto.idDiretor());
         Filme filme = new Filme();
@@ -68,28 +68,37 @@ public class FilmeService {
         filme.setGenero(dto.genero());
         filme.setDiretor(diretor);
         filme.setDuracao(dto.duracao());
-        filme.setNota(dto.nota());
         filme.setAnoLancamento(dto.ano());
         return filme;
     }
 
-    private FilmeResponseDTO toResponseDTO (Filme filme) {
+    private FilmeResponseDTO toResponseDTO(Filme filme) {
         return new FilmeResponseDTO(
                 filme.getId(),
                 filme.getTitulo(),
                 filme.getDiretor().getIdDiretor(),
                 filme.getGenero(),
                 filme.getDiretor().getNome(),
-                filme.getNota()
+                calcularMediaAvaliacoes(filme)
         );
-
     }
 
-    public List<FilmeResponseDTO> listarFilmePorDiretor (Long idDiretor) {
+    public List<FilmeResponseDTO> listarFilmePorDiretor(Long idDiretor) {
         service.buscarEntidade(idDiretor);
         return repository.findByDiretorIdDiretor(idDiretor)
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
+    }
+
+    private Double calcularMediaAvaliacoes(Filme filme) {
+        if (filme.getAvaliacoes() == null || filme.getAvaliacoes().isEmpty()) {
+            return 0.0;
+        }
+
+        return filme.getAvaliacoes()
+                .stream()
+                .mapToInt(Avaliacao::getNota)
+                .average().orElse(0.0);
     }
 }
