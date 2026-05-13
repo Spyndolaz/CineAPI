@@ -76,10 +76,13 @@ public class FilmeService {
         return new FilmeResponseDTO(
                 filme.getId(),
                 filme.getTitulo(),
-                filme.getDiretor().getIdDiretor(),
                 filme.getGenero(),
+                filme.getAnoLancamento(),
+                filme.getDuracao(),
+                filme.getDiretor().getIdDiretor(),
                 filme.getDiretor().getNome(),
-                calcularMediaAvaliacoes(filme)
+                calcularMediaAvaliacoes(filme),
+                contarAvaliacoes(filme)
         );
     }
 
@@ -101,4 +104,27 @@ public class FilmeService {
                 .mapToInt(Avaliacao::getNota)
                 .average().orElse(0.0);
     }
+
+    private Integer contarAvaliacoes(Filme filme) {
+        if(filme.getAvaliacoes() == null || filme.getAvaliacoes().isEmpty()) {
+            return 0;
+        }
+
+        return filme.getAvaliacoes().size();
+    }
+
+    public List<FilmeResponseDTO> buscarPorTitulo(String titulo){
+        return repository.findByTituloContainingIgnoreCase(titulo)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public List<FilmeResponseDTO> buscarPorGenero(String genero){
+        return repository.findByGeneroContainingIgnoreCase(genero)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
 }

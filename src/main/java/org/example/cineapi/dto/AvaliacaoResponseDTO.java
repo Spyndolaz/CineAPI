@@ -6,6 +6,4 @@ public record AvaliacaoResponseDTO(
         String comentario,
         Long id,
         String titulo
-
-) {
-}
+) {}
